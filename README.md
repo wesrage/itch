@@ -68,6 +68,21 @@ var price = {
 }[item] || 999.99;
 ```
 
+### Nested Ternaries
+```javascript
+var price = (item === 'Orange')
+   ? 0.59
+   : (item === 'Apple')
+      ? 0.32
+      : (item === 'Banana')
+         ? 0.48
+         : (item === 'Cherry')
+            ? 3.00
+            : (item === 'Mango' || item === 'Papaya')
+               ? 2.79
+               : 999.99;
+```
+
 ## Syntax
 ```javascript
 itch(seed)

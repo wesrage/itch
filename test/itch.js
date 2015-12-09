@@ -4,7 +4,7 @@ import itch from '../bin/itch';
 should();
 
 describe('itch', () => {
-   it('returns default value in case with no `is` clauses', () => {
+   it('returns default value in case with no `match` clauses', () => {
       itch().scratch(1).should.equal(1);
       itch().scratch({ one: 1 }).should.deep.equal({ one: 1 });
       itch().scratch(() => {}).should.be.a('function');

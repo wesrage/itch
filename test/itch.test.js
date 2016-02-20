@@ -106,5 +106,10 @@ describe('itch', () => {
       .match(true).then(5)
       .scratch(6)
       .should.equal(5);
+
+      itch(true)
+      .match(false).then(0)
+      .scratchEvaluate(() => 1)
+      .should.equal(1);
    });
 });

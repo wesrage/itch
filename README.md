@@ -93,9 +93,10 @@ itch(seed)
 ```
 
 * An `itch` statement is a function chain that starts with a call to the `itch` function with a seed value.
-* The `itch()` call is followed by a series of `match().then()` calls.
+* The `itch()` call is typically followed by a series of `match().then()` calls.
  * `match()` accepts one argument, which is a candidate value to test for equality against the seed value.
  * `then()` accepts one argument, which is the value that will be returned if the seed matches the current candidate.
+ * `evaluate()` may be used instead of `then()`. If the argument to `evaluate()` is a function, it will be evaluated only if the seed matches the current candidate.
 * The chain must be concluded with a `scratch()` call, whose sole argument is the default return value, should none of the candidates match the seed.
 
 ## Custom Matchers
@@ -130,4 +131,19 @@ itch(2)
    .matchOneOf([1, 2, 3]).then(true)
    .scratch(false);
 // returns true
+```
+
+## Evaluate
+Often you will want to use the return value of a function call rather than a simple value as an argument to a `then()` function. In these cases, you should wrap the function call in an anonymous function and pass it to `execute()` instead. If a function invocation is passed to a `then()` function it will execute even if the corresponding candidate does not match, whereas a function passed to `then()` will simply be returned without being evaluated. `evaluate()` allows `itch` to be used in a greater number of scenarios.
+
+Similarly `scratchEvaluate()` can be used instead of `scratch()` in these cases.
+
+`scratchEvaluate()` : `scratch()` :: `evaluate()` : `then()`
+
+```javascript
+// ES2015
+return itch(command)
+   .match('log in').evaluate(() => http.post('login', credentials))
+   .match('log out').evaluate(() => http.post('logout'))
+   .scratchEvaluate(() => Promise.reject(new Error('Invalid command')));
 ```

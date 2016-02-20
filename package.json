@@ -1,6 +1,6 @@
 {
   "name": "itch",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "A flexible and readable switch statement replacement library for JavaScript",
   "main": "bin/itch.js",
   "directories": {

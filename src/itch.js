@@ -11,6 +11,7 @@ const done = (result) => {
       match,
       matchOneOf: match,
       scratch: () => result,
+      scratchEvaluate: () => result,
       using: () => done(result),
    };
 };
@@ -28,6 +29,7 @@ const notDone = (seed, matcher = strictEquals) => {
       match,
       matchOneOf: candidates => match(candidates, arrayMatcher(matcher)),
       scratch: a => a,
+      scratchEvaluate: a => typeof a === 'function' ? a() : a,
       using: newMatcher => notDone(seed, newMatcher),
    };
 };

@@ -5,6 +5,7 @@ const arrayMatcher = (matcher) =>
 const done = (result) => {
    const match = () => ({
       then: () => done(result),
+      evaluate: () => done(result),
    });
    return {
       match,
@@ -18,6 +19,9 @@ const notDone = (seed, matcher = strictEquals) => {
    const match = (candidate, newMatcher = matcher) => ({
       then: (newMatcher(seed, candidate))
          ? (result) => done(result)
+         : () => notDone(seed, matcher),
+      evaluate: (newMatcher(seed, candidate))
+         ? (result) => done(typeof result === 'function' ? result() : result)
          : () => notDone(seed, matcher),
    });
    return {

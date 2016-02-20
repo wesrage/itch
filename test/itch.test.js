@@ -1,5 +1,5 @@
 import { expect, should } from 'chai';
-import itch from '../bin/itch';
+import itch from '../src/itch';
 
 should();
 
@@ -80,5 +80,31 @@ describe('itch', () => {
       .match(() => 1).then(true)
       .scratch(false)
       .should.equal(true);
+   });
+
+   it('evaluates only matching `evaluate` arguments', () => {
+      const thrower = () => {
+         throw new Error();
+      };
+      const fiver = () => 5;
+
+      itch(true)
+      .match(false).evaluate(() => thrower())
+      .match(true).evaluate(() => fiver())
+      .scratch(6)
+      .should.equal(5);
+
+      itch(true)
+      .match(false).then(7)
+      .match(true).evaluate(() => fiver())
+      .match(false).evaluate(() => thrower())
+      .scratch(6)
+      .should.equal(5);
+
+      itch(true)
+      .match(false).evaluate(() => thrower())
+      .match(true).then(5)
+      .scratch(6)
+      .should.equal(5);
    });
 });
